@@ -3,7 +3,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 }
-
+java { toolchain { languageVersion = JavaLanguageVersion.of(17) } }
+kotlin { jvmToolchain(17) }
 android {
     namespace 'com.example.myapitest'
     compileSdk 34
