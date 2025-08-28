@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "702578974634",
+    "project_id": "projeto-mateus-22b1d",
+    "storage_bucket": "projeto-mateus-22b1d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702578974634:android:fe4df7ff597b240ad555d3",
+        "android_client_info": {
+          "package_name": "com.example.myapi.utfpr.api"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhc5-1WNjJkOeE2-DGoSsnoA0atGYU_Wg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

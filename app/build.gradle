@@ -2,6 +2,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 java { toolchain { languageVersion = JavaLanguageVersion.of(17) } }
 kotlin { jvmToolchain(17) }
@@ -10,7 +11,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.myapitest"
+        applicationId "com.example.myapi.utfpr.api"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -55,10 +56,10 @@ android {
 }
 
 kapt {
-
-    // Define o diretório onde o Room exportará o esquema do banco de dados
+    correctErrorTypes = true
     arguments {
         arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.incremental", "true")
     }
 }
 
@@ -91,9 +92,16 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:2.6.1"
-    annotationProcessor "androidx.room:room-compiler:2.6.1"
-    kapt "androidx.room:room-compiler:2.6.1"
     implementation "androidx.room:room-ktx:2.6.1"
+    kapt "androidx.room:room-compiler:2.6.1"
+    // remova: kapt "org.xerial:sqlite-jdbc:3.45.3.0" (não precisa a menos que use verifySchema offline)
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:33.4.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-storage-ktx:21.0.2'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.android.gms:play-services-auth:21.2.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
