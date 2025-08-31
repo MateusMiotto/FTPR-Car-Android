@@ -1,5 +1,6 @@
 package com.example.myapitest.service
 
+import com.example.myapitest.model.ApiEnvelope
 import com.example.myapitest.model.Item
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -12,7 +13,7 @@ interface ApiService {
 
     @GET("car") suspend fun getItems(): List<Item>
 
-    @GET("car/{id}") suspend fun getItem(@Path("id") id: String): Item
+    @GET("car/{id}") suspend fun getItem(@Path("id") id: String): ApiEnvelope<Item>
 
     @DELETE("car/{id}") suspend fun deleteItem(@Path("id") id: String)
 

@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun navigateToNewItem() {
-//        startActivity(NewItemActivity.newIntent(this))
+        startActivity(NewItemActivity.newIntent(this))
     }
 
 
@@ -142,14 +142,19 @@ class MainActivity : AppCompatActivity() {
         fusedLocationProviderClient.lastLocation.addOnCompleteListener { task: Task<Location> ->
             if (task.isSuccessful) {
                 val location = task.result
-                Log.d("Hello World", "Lat: ${location.latitude} Long: ${location.longitude}")
-                val userLocation =
-                    UserLocation(latitude = location.latitude, longitude = location.longitude)
+                if (location != null) {
+                    Log.d("", "Lat: ${location.latitude} Long: ${location.longitude}")
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    DatabaseBuilder.get()
-                        .userLocationDao()
-                        .insert(userLocation)
+                    val userLocation =
+                        UserLocation(latitude = location.latitude, longitude = location.longitude)
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        DatabaseBuilder.get()
+                            .userLocationDao()
+                            .insert(userLocation)
+                    }
+                } else {
+                    Log.d("", "Location is null")
                 }
             } else {
                 Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show()

@@ -1,5 +1,6 @@
 package com.example.myapitest
 
+import android.R.attr.name
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -45,8 +46,7 @@ class ItemDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         if (::item.isInitialized) {
-            // Se o item já foi carregado por nossa chamada no BackEnd
-            // Carregue o item no Map
+            // Carrega o item no Map
             loadItemLocationInGoogleMap()
         }
     }
@@ -67,21 +67,20 @@ class ItemDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun loadItemLocationInGoogleMap() {
-//        item.value.location.apply {
-//            binding.googleMapContent.visibility = View.VISIBLE
-//            val latLong = LatLng(latitude, longitude)
-//            mMap.addMarker(
-//                MarkerOptions()
-//                    .position(latLong)
-//                    .title(name)
-//            )
-//            mMap.moveCamera(
-//                CameraUpdateFactory.newLatLngZoom(
-//                    latLong,
-//                    15f
-//                )
-//            )
-//        }
+        item.place.apply {
+            binding.googleMapContent.visibility = View.VISIBLE
+            val latLong = LatLng(lat, long)
+            mMap.addMarker(
+                MarkerOptions()
+                    .position(latLong)
+            )
+            mMap.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    latLong,
+                    15f
+                )
+            )
+        }
     }
 
     private fun setupGoogleMap() {
@@ -98,7 +97,7 @@ class ItemDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             withContext(Dispatchers.Main) {
                 when (result) {
                     is Result.Success -> {
-                        item = result.data
+                        item = result.data.value
                         handleSuccess()
                     }
 
@@ -137,11 +136,25 @@ class ItemDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun editItem() {
+        val licenceText = binding.licence.text.toString().trim()
+        val yearText = binding.year.text.toString().trim()
+        if (licenceText.isEmpty() || yearText.isEmpty()) {
+            if (licenceText.isEmpty()) binding.licence.error = getString(R.string.required)
+            if (yearText.isEmpty()) binding.year.error = getString(R.string.required)
+
+            Toast.makeText(
+                this,
+                R.string.fill_required_fields,
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             val result = safeApiCall {
                 RetrofitClient.apiService.updateItem(
                     item.id,
-                    item.copy(licence = binding.licence.text.toString())
+                    item.copy(licence = binding.licence.text.toString(), year = binding.year.text.toString())
                 )
             }
             withContext(Dispatchers.Main) {
@@ -169,9 +182,9 @@ class ItemDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun handleSuccess() {
         binding.name.text = item.name
-        binding.year.text = item.year
+        binding.year.setText(item.year)
         binding.licence.setText(item.licence)
-        binding.image.loadUrl(item.imageUrl)
+        binding.image.loadUrl(item.image.toString())
         loadItemLocationInGoogleMap()
     }
 

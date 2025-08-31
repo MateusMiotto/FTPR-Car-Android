@@ -165,7 +165,7 @@ class NewItemActivity : AppCompatActivity(), OnMapReadyCallback {
 
         return FileProvider.getUriForFile(
             this,
-            "com.example.minhaprimeiraapi.fileprovider",// applicationId + .provider
+            "com.example.myapitest.fileprovider",// applicationId + .provider
             imageFile!!
         )
     }
@@ -179,7 +179,7 @@ class NewItemActivity : AppCompatActivity(), OnMapReadyCallback {
         val name = binding.name.text.toString()
         val year = binding.year.text.toString()
         val licence = binding.licence.text.toString()
-        val imageUrl = binding.imageUrl.text.toString()
+        val image = binding.imageUrl.text.toString()
         val location = selectedMarker?.position?.let { position ->
             Place(
                 position.latitude,
@@ -189,12 +189,13 @@ class NewItemActivity : AppCompatActivity(), OnMapReadyCallback {
 
         CoroutineScope(Dispatchers.IO).launch {
             val itemValue = Item(
-                SecureRandom().nextInt().toString(),
-                name,
-                year,
-                licence,
-                location,
-                imageUrl
+                id = SecureRandom().nextInt().toString(),
+                image = image,
+                year = year ,
+                name = licence,
+                place = location,
+                licence = licence
+
             )
             val result = safeApiCall { RetrofitClient.apiService.addItem(itemValue) }
             withContext(Dispatchers.Main) {

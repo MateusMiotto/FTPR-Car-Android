@@ -16,4 +16,6 @@
     <string name="error_validate_form">Por favor, preencha o campo: %1$s</string>
     <string name="error_validate_form_location">Por favor, selecione a localização no mapa.</string>
     <string name="error_upload_image">Erro ao realizar o upload da imagem</string>
+    <string name="fill_required_fields">Preencha todos os campos!</string>
+    <string name="required">Campo obrigatório</string>
 </resources>

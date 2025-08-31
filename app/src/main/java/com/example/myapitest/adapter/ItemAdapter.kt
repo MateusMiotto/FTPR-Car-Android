@@ -25,7 +25,7 @@ class ItemAdapter(
         val item = items[position]
         holder.name.text = item.name
         holder.year.text = item.year
-        holder.imageView.loadUrl(item.imageUrl)
+        holder.imageView.loadUrl(item.image.toString())
         holder.itemView.setOnClickListener {
             itemClickListener(item)
         }

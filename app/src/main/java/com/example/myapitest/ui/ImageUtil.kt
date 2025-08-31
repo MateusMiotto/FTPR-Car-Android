@@ -5,6 +5,11 @@ import com.example.myapitest.R
 import com.squareup.picasso.Picasso
 
 fun ImageView.loadUrl(imageUrl: String) {
+    if (imageUrl.isNullOrBlank()) {
+        setImageResource(R.drawable.ic_error)
+        return
+    }
+
     Picasso.get()
         .load(imageUrl)
         .placeholder(R.drawable.ic_downloading)

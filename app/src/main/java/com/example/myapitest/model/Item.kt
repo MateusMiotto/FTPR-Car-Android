@@ -1,9 +1,13 @@
 package com.example.myapitest.model
-import com.google.gson.annotations.SerializedName
+
+data class ApiEnvelope<T>(
+    val id: String?,
+    val value: T
+)
 
 data class Item(
     val id: String,
-    val imageUrl: String,
+    val image: String,
     val year: String,
     val name: String,
     val place: Place,
@@ -12,5 +16,5 @@ data class Item(
 
 data class Place(
     val lat: Double,
-    @SerializedName("long") val lon: Double
+    val long: Double
 )
